@@ -20,7 +20,20 @@ public class LogicServlet extends HttpServlet {
 
         int index = getSelectedIndex(req);
 
+        Sign currentSign = field.getField().get(index);
+
+        if (Sign.EMPTY != currentSign) {
+            getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+            return;
+        }
+
         field.getField().put(index, Sign.CROSS);
+
+        int emptyFieldIndex = field.getEmptyFieldIndex();
+
+        if (emptyFieldIndex >= 0) {
+            field.getField().put(emptyFieldIndex, Sign.NOUGHT);
+        }
 
         List<Sign> data = field.getFieldData();
 
